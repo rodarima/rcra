@@ -179,7 +179,10 @@ En la RAE se define asegurar como:
 > 5. tr. Afirmar la certeza de lo que se refiere. U. t. c. prnl.
 
 Cuando se enuncia que el éxito del sistema está asegurado, quiere decir que se
-afirma la certeza de que el sistema funcione de forma exitosa.
+afirma la certeza de que el sistema funcione de forma exitosa. Se establece o
+fija sólidamente el éxito del sistema.
+
+2014U4
 
 Continuemos con el análisis del enunciado.
 
@@ -222,36 +225,40 @@ En búsqueda del éxito perdido.
 ------------------------------
 
 Sin embargo no especifica claramente cómo debe ser especificado el éxito. Una
-opción posible consistiría en emplear una variable E, que determina es éxito del
+opción posible consistiría en emplear una variable E, que determina el éxito del
 sistema.
 
-Sin embargo E puede ser de diferentes tipos, una variable booleana, que sólo
+La variable E puede ser de diferentes tipos, una variable booleana, que sólo
 informaría del éxito potencial, o de su negación. Podría ser una variable que
 tomase valores reales en un intervalo, por ejemplo entre 0 y 1. Podría ser
 también el resultado de la clasificación del sistema en determinados intervalos
 de éxito, asignando a cada uno un valor creciente de éxito. A continuación
-enumeraremos las posibles opciones.
+enumeraremos algunas opciones.
 
 E1 ∈ {0,1}
-E2 ∈ {e1, e2, ..., ei}$
-E3 ∈ [0,1]$
+E2 ∈ {e1, e2, ..., ei} | ei ∈ [0,1]
+E3 ∈ [0,1]
+
+La diferencia entre estas variables radica en el número de estados posibles que
+pueden representar. En el caso de E1 son 2, en E2 son i, y en E3, al ser un
+intervalo en la recta real, tenemos infinitos valores.
 
 Para tener una medida de la cantidad de información promedio que contienen los
-símbolos usados en las variables Ei, podríamos usar la entropía de la
+símbolos usados en las variables E, podríamos considerar usar la entropía de la
 información.
 
 H(E1) = log2(2) = 1
 H(E2) = log2(i)
 H(E3) = log2(∞) = ∞
 
-Se observa, que la información representada en E3 contiene más certeza que la
+Se observa, que la información representada en E3 contiene mayor entropía que la
 contenida en E2, y a su vez en E1. Podríamos usar una función aplicada a E3 para
 obtener E1.
 
 Por ejemplo:
 
 f(x) = 
-	si x<0.5, entonces 0
+	si x < 0.5, entonces 0
 	si no, entonces 1
 
 Tambien es posible calcular E2 desde E3, por ejemplo usando una función a
@@ -264,8 +271,12 @@ f(x) =
 	...
 	si no, entonces ei
 
-Dado a que la expresión E3 nos permite englobar al resto de opciones, será la
-candidata elegida para representar el valor que mide el éxito del sistema.
+Dado que la expresión E3 nos permite englobar al resto de opciones, será la
+mejor candidata para representar el valor que mide el éxito del sistema de una
+forma precisa. Y a la que posteriormente podemos transformar en una
+representación más imprecisa e informal.
+
+A partir de aquí llamaremos E a E3.
 
 
 Visión global del problema.
@@ -273,24 +284,38 @@ Visión global del problema.
 
 Para determinar el valor de E, hace falta obtener el valor de los tests,
 realizar una serie de cálculos, y finalmente obtener un valor en E que
-represente el éxito de forma adecuada al enunciado.
+represente el éxito de forma adecuada al enunciado. Además debe realizarse de
+forma determinista, esto es, que dado una entrada, calculemos el valor de E, de
+una forma claramente especificada.
 
-La entrada de la información, se produce por medio de un conjunto de preguntas.
-Esto quiere decir que teóricamente existe infinita información en la entrada.
-Así que trataremos de manipularla con cuidado para que no desaparezca.
+* ¿Es necesario que el resultado sólo dependa de la entrada al sistema, y que
+siempre que las condiciones sean iguales proporcione la misma salida?
+
+La entrada consta del resultado de una serie de preguntas. Estos resultados han
+sido expresados en forma de intervalos.
+El número posible de estados en la entrada, al tratarse de un intervalo, es
+infinito.
+Así que trataremos de manipularla con cuidado para que no reducir el número de
+estados.
 
 Cada pregunta proporciona un valor continuo en un intervalo. Este intervalo
 consiste en [1,5] que podemos transformar a [0,1] sin perder información.
 
 	pi ∈ [1,5]
 
-	f(x) = x-1/4
+	f(x) = (x-1)/4
+
+Cada valor de la entrada, se asocia única y exclusivamente con un valor del
+intervalo [0,1], con lo que no perdemos ninguna información realizando esta
+transformación.
 
 Una vez que tengamos las 7 preguntas, podemos usar la variable T para
 representar el valor de todos los tests.
 
 	T = {t1,t2,t3 ... t7}
 	ti ∈ [0,1]
+
+	ti : es el valor del test i, normalizado a [0,1]
 
 Ahora el problema se reduce significativamente a buscar la función siguiente:
 
@@ -300,3 +325,206 @@ Que nos proporcionaría el éxito del sistema.
 
 Para construirla, llevaremas a cabo una serie de análisis partiendo de la
 información del dominio.
+
+La solución del problema podría verse afectada por diferentes interpretaciones
+de las especificaciones tanto del dominio como de la entrada. Así que, para no
+descartar ninguna, en cuanto se produzca una duda, trataremos de contemplar
+exhaustivamente todas sus posibles interpretaciones. O al menos mencionar que
+existen más.
+
+
+Las reglas.
+-----------
+
+El problema sugiere que para la realización del ejercicio se empleen una serie
+de factores relevantes. Expresa que son 7 factores los que permiten averiguar el
+éxito del sistema.
+
+Centrémonos entonces en dichos factores. La relación que existe entre estos
+factores y el éxito, viene expresada en un regla.
+
+La regla contiene 7 antecedentes, que corresponden a distintos valores de T, y
+un consecuente, que corresponde a un valor para E.
+
+Sabemos por la naturaleza de la regla, que si determinamos que la entrada
+coincide con la regla, entonces se asigna el valor de la salida.
+
+Esta regla no especifica, que ocurre cuando los valores de T, no corresponden a
+los especificados. De hecho no se especifica tampoco que valores precisos de T
+son los que provocan que la regla sea activada.
+
+La falta de información, nos lleva a tomar aquí una decisición. Podríamos parar
+el planteamiento del problema, y buscar más información. De forma que reduzcamos
+la incertidumbre de la regla. O podríamos asumir que esta incertidumbre está
+implicitamente asociada al problema, y el objetivo es tratar de trabajar con
+ella.
+
+Esta decisión recibirá el nombre de decisión 1.
+
+Procuremos solventar el problema asumiendo que existe un cierto grado de
+ambigüedad en la regla.
+
+Para simplificar la descripción de las reglas, vamos a considerar llamar a cada
+cláusula de la regla, empleando un símbolo.
+
+>  Si		C1: Hay una transferencia de tecnología óptima 
+>  Y		C2: Las expectativas son óptimas 
+>  Y		C3: La distorsión laboral es mínima 
+>  Y		C4: El rechazo es nulo 
+>  Y		C5: La independencia política de la empresa es total 
+>  Y		C6: El modelo de negocio es absolutamente estable 
+>  Y		C7: Los objetivos están claramente definidos 
+>  Entonces	: El éxito de la incorporación del sistema está asegurado. 
+
+
+El cuestionario.
+----------------
+/*
+Volviendo atrás, observábamos que el test nos proporciona un valor p1.
+
+p1: ¿Considera factible la inclusión de esta nueva tecnología? 3.5
+
+	p1 = 3.5
+	t1 = (3.5-1)/4 = 2.5/4 = 25/40
+
+Este valor podría medir la transferencia de tecnología, y corresponderse con la
+primera regla. De hecho, se han definido una serie de nombres para las cláusulas
+que coinciden con las diferentes preguntas que se plantean en el test.
+
+En este punto, es posible que surja una duda, acerca de cómo de similar es el
+resultado p1, con lo que mide la transferencia de tecnología. Si indico en el
+test:
+
+	p1 = 5
+
+Estoy indicando que sé que la transferencia de tecnología es ciertamente total,
+o podría existir una imprecisión en la forma en la que yo interpreto mi
+evaluación de la transferencia. Si existe una imprecisión implícita en el test,
+entonces debemos realizar aquí otra decisión.
+*/
+--
+
+La persona bastante cualificada marcará en el test un valor para la primera
+pregunta que será 1, 2, 3, 4 o 5. Tendrá que condensar toda la información que
+conoce del problema, y elegir cual es el valor que más se acerca.
+
+Es posible que surja la duda de que si la persona sólo puede expresar sus ideas
+en una elección con tan pocas opciones, realmente se está perdiendo información.
+
+Aún así sólo podríamos afirmar que tenemos una sensación de que se pierde
+información. Para poder decir cuánta información se pierde, o cuanto de
+importante es el valor que ha puesto, necesitamos conocer íntegramente el
+pensamiento de la persona que realiza el test. Y entonces tendríamos una fuente
+más fiable de información con la que comparar el test.
+
+Así que tendremos que tomar una decisión. Si consideramos que existe una pérdida
+de información, o por el contrario, lo ignoramos para el problema.
+
+Esta será la decisión 2.
+
+Por el momento, consideraremos la opción de descartar el valor de incertidumbre
+que tendría el test, y asumir que el resultado es realmente fideligno con el
+pensamiento de la persona que lo cubrió.
+
+Sin embargo, estamos refiriendonos solamente al resultado de una pregunta. Pero
+el valor de las encuestas, de alguna manera aglutina el resultado de todas las
+encuestas. Aquí obligatoriamente se produce una pérdida de información, ya que
+no sabemos el resultado de todas las encuestas. Sólo el que recoge una función
+desconocida, que usualmente podría ser la media de las encuestas. Aunque también
+podría darse más importancia a las personas más cualificadas de la empresa, con
+el fin de tener unos valores más cercanos a la realidad. Como no tenemos dicha
+información, la entrada está incompleta.
+
+Englobaremos en la decisión 2, que omitimos toda pérdida de la información, y
+que tomamos los valores del test de forma que el valor del informe de las
+encuestas es totalmente cierto.
+
+Llegados a este punto, tenemos una entrada que consideramos perfectamente
+realista, y un valor que tenemos a la salida, que habíamos cosiderado como la
+mejor elección, usando un intervalo [0,1].
+
+Podemos despreocuparnos ahora de si los datos tienen errores, ya que hemos
+decidido que vamos a ignorarlos por ahora. Y trataremos de buscar una solución
+al problema a partir de aquí.
+
+
+Las reglas y el cuestionario.
+-----------------------------
+
+Vamos a observar de que forma las reglas que tenemos como información del
+dominio se relacionan con los resultados de las encuestas. Para ello vemos que
+la cláusula C1 habla de la transferencia de tecnología. Y tenemos un valor de
+test que especifica exactamente el valor de dicha transferencia, t1.
+
+>  Si		C1: Hay una transferencia de tecnología óptima 
+>  Y		C2: Las expectativas son óptimas 
+>  Y		C3: La distorsión laboral es mínima 
+>  Y		C4: El rechazo es nulo 
+>  Y		C5: La independencia política de la empresa es total 
+>  Y		C6: El modelo de negocio es absolutamente estable 
+>  Y		C7: Los objetivos están claramente definidos 
+>  Entonces	: El éxito de la incorporación del sistema está asegurado. 
+
+Pero existe un problema, y es que el valor de t1, es real, y la cláusula C1,
+está expresada en lenguaje natural.
+
+De hecho, cada una de las cláusulas proporcionan una definición en lenguaje
+natural, lo que imposibilita la acción de compararlas directamente con un valor
+numérico de forma precisa.
+
+Este dilema, podría solucionarse de diversas maneras. Por ejemplo podríamos
+pensar que una transferencia óptima es un valor igual a 1. O que es un intervalo
+como [0.9, 1]. Incluso podríamos llegar a este punto y decidir que no tenemos
+ninguna forma de comparar el lenguaje natural, con el valor real, y por lo
+tanto, no podemos continuar.
+
+Sin embargo, antes ya hemos tomado la decisión 1, de tratar de solventar el
+problema aunque contenga información incompleta.
+
+Nos queda tomar una decisión acerca de como transformar óptimo en un número.
+
+Esta será la decisión 3.
+
+Trataremos este problema más adelante, resolviendolo con ambas soluciones.
+
+Para cada cláusula, debemos realizar dicha conversión, por lo que tendremos que
+realizar 7 decisiones diferentes. Además no todas tienen que ser del mismo tipo,
+es posible que algunas puedan combinar intervalos y otras valores fijos.
+
+Existe la posibilidad de pensar que óptima significa el mejor valor posible, en
+este caso sería 1. Pero esta no es necesariamente la única opción. De hecho
+puede ser que si pensamos en:
+
+	Poco óptima, óptima, muy óptima
+
+Parece más intuitivo que óptima, ya no representa el valor más alto. Por lo que
+es difícil asegurar un valor concreto.
+
+
+A -> E, E -> A?
+---------------
+
+La regla sólo nos informa de que en el caso de cumplirse las premisas, podemos
+asegurar el éxito. Sin embargo se me plantea la curiosidad de que si el sistema
+es un éxito, implica que tuvo una buena evaluación? o simplemente no podemos
+indicar nada acerca de la evaluación?
+
+Lo que parece estar claro, es que si no se cumple el antecedente, no hay ninguna
+información sobre el éxito. El problema es que no se sabe ciertamente cuando se
+cumple el antecedente.
+
+Busquemos una forma de expresar el cumplimiento o no del antecedente. Si es una
+variable A binaria, solamente aceptará dos estados. El hecho de que se encuentre
+en uno de ellos, representa que tenemos una información total del que se
+encuentra en uno, y por consecuencia, su contrario, que no se encuentra en el
+otro.
+
+A ∈ {0,1}
+
+Si representamos A, mediante un intervalo, tenemos que:
+
+A ∈ [0,1]
+
+De la misma forma que antes, parece que podemos representar la opción binaria,
+como un caso particular del intervalo, así que este último parece una mejor
+solución.
