@@ -278,6 +278,20 @@ representación más imprecisa e informal.
 
 A partir de aquí llamaremos E a E3.
 
+E podría medir el éxito, frente al fracaso. Sin embargo a la vez que apoyamos la
+hipótesis de éxito estamos apoyando a la contraria. Una alternativa es
+considerar que mide cuánto de seguros estamos de que ocurra éxito, frente a
+cuanto de inseguros estamos.
+
+Sería algo parecido a considerar que si E=0, nuestra determinación acorca de
+del éxito es similar a la de lanzar una moneda al aire y determinar si va a
+haber éxito si sale cara. Si E=1, entonces va ocurrir el éxito. Es imposible que
+no ocurra el éxito. Esta última opción es más bien teórica ya que es muy difícil
+predecir que es lo que ocurrirá con total certeza.
+
+Creo que considerar esta última opción es más adecuada para representar el
+problema.
+
 
 Visión global del problema.
 ---------------------------
@@ -485,7 +499,7 @@ Nos queda tomar una decisión acerca de como transformar óptimo en un número.
 
 Esta será la decisión 3.
 
-Trataremos este problema más adelante, resolviendolo con ambas soluciones.
+Trataremos este problema más adelante, resolviendolo con varias soluciones.
 
 Para cada cláusula, debemos realizar dicha conversión, por lo que tendremos que
 realizar 7 decisiones diferentes. Además no todas tienen que ser del mismo tipo,
@@ -528,3 +542,74 @@ A ∈ [0,1]
 De la misma forma que antes, parece que podemos representar la opción binaria,
 como un caso particular del intervalo, así que este último parece una mejor
 solución.
+
+Construiremos una función que nos permita obtener A, a partir de los resultados
+de los tests, T:
+
+	A = f(T)
+
+El valor de A, representará su estado de activación, de forma que si A = 1 está
+activado.
+
+A continuación, asignaremos E, dependiendo del valor de A.
+
+	E = f(A)
+
+Si A no se activa, el éxito no se sabe.
+
+media(T) = 0.9
+A = 0.8
+E = 0.8
+
+
+El enunciado dice lo siguiente:
+
+t1 = 25/40
+t2 = 22/40
+t3 =  5/40
+t4 = 13/40
+t5 =  2/40
+t6 = 10/40
+t7 = 37/40
+
+Para manipular estos datos usamos el conjunto T:
+
+T = {t1,t2,t3,t4,t5,t6,t7}
+
+
+Lenguaje natural
+----------------
+
+Al releer las preguntas del cuestionario acabo de darme cuenta de que las
+preguntas no son realmente iguales que las premisas que se consideran en la
+regla.
+
+Analicemos con detalle la siguiente frase:
+
+	¿Considera factible la inclusión de esta nueva tecnología?
+
+Pregunta si es factible, sin embargo:
+
+Si la incorporación de la nueva tecnología se puede realizar de manera
+conveniente para la empresa. Llamaremos a esta circunstancia "Transferencia de
+Tecnología". ¿Hay una transferencia de tecnología óptima?
+
+factible
+1. adj. Que se puede hacer.
+
+La definición de factible es simplemente que se puede hacer. Por lo tanto,
+afirmar que la inclusión de la tecnología es factible, podría no significar
+exactamente que sea conveniente.
+
+En la siguiente pregunta,
+
+	¿Cree que las expectativas de la Dirección son realistas?
+
+Pero en la regla se menciona:
+
+Si el personal de alta dirección confía en esta nueva tecnología. Llamaremos
+esta circunstancia "Expectativas". ¿Las expectativas son óptimas?
+
+Pademos afirmar indudablemente que significan lo mismo? Yo me inclinaría por que
+no es así. Que existe un cierto grado de incertidumbre.
+
